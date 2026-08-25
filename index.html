@@ -43,6 +43,20 @@
     .summary-item span { font-size: 1.3rem; }
     .summary-item small { font-size: 0.75rem; color: var(--text-muted); display: block; }
     .summary-item strong { font-size: 0.95rem; }
+
+    /* NOUVELLE PARTIE POUR LES BOUTONS INTERACTIFS */
+    .interact-buttons { display: flex; gap: 10px; margin-top: 20px; }
+    .btn-yes, .btn-no { padding: 12px 24px; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; transition: transform 0.2s, font-size 0.2s, opacity 0.2s; font-size: 1rem; flex: 1; min-width: 80px; text-align: center; line-height: 1.2;}
+    .btn-yes { background-color: var(--accent-dark); color: white; }
+    .btn-no { background-color: #f0f0f0; color: #555; position: relative; left: 0; }
+    .btn-no:hover { background-color: #e0e0e0; }
+    @media (max-width: 400px) {
+        .btn-yes, .btn-no {
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            min-width: 70px;
+        }
+    }
   </style>
 </head>
 <body>
@@ -124,11 +138,23 @@
           <small>Aller là où le moment nous mène.</small>
         </div>
       </div>
-      <button id="btn-step-3" disabled onclick="nextStep(4)">Voir le récapitulatif</button>
+      <button id="btn-step-3" disabled onclick="nextStep(4)">Continuer</button>
+    </section>
+
+    <!-- NOUVELLE ÉTAPE 4 : LA QUESTION INTERACTIVE -->
+    <section id="step-4">
+        <div class="heart-icon">❓</div>
+        <span class="step-tag">Une petite question</span>
+        <h2>Seras-tu d'accord d'être ma Valentine / mon Valentin ?</h2>
+        <p>C'est juste pour savoir... 😉</p>
+        <div class="interact-buttons">
+          <button id="btn-yes" class="btn-yes" onclick="handleYes()">Oui ! ✨</button>
+          <button id="btn-no" class="btn-no" onclick="handleNo()">Non...</button>
+        </div>
     </section>
 
     <!-- Final Step -->
-    <section id="step-4">
+    <section id="step-5">
       <div class="heart-icon">♥</div>
       <span class="step-tag">Dernière étape</span>
       <h2>Voici ce que tu as choisi :</h2>
@@ -162,6 +188,8 @@
 
   <script>
     const choices = { place: '', food: '', vibe: '' };
+    let noClickCount = 0;
+    const maxNoClicks = 5; // Nombre de clics sur "Non" avant qu'il ne disparaisse complètement
 
     function selectOption(category, value, element) {
       choices[category] = value;
@@ -178,16 +206,55 @@
       document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
       document.getElementById('step-' + step).classList.add('active');
 
-      if (step === 4) {
+      if (step === 5) {
         document.getElementById('summary-place').innerText = choices.place;
         document.getElementById('summary-food').innerText = choices.food;
         document.getElementById('summary-vibe').innerText = choices.vibe;
       }
     }
 
+    // NOUVELLES FONCTIONS POUR L'INTERACTION
+    function handleNo() {
+        const btnYes = document.getElementById('btn-yes');
+        const btnNo = document.getElementById('btn-no');
+        noClickCount++;
+
+        // Calculer l'augmentation de taille du Oui et la diminution de taille du Non
+        const yesScale = 1 + (noClickCount * 0.2); // Le "Oui" augmente de 20% à chaque clic
+        const noScale = 1 - (noClickCount * (1/maxNoClicks)); // Le "Non" diminue progressivement
+
+        // Appliquer les transformations
+        btnYes.style.transform = `scale(${yesScale})`;
+        
+        // Si on n'a pas encore atteint le max, on déplace un peu le Non et on le réduit
+        if (noClickCount < maxNoClicks) {
+            btnNo.style.transform = `scale(${noScale})`;
+            
+            // Un petit déplacement aléatoire pour le Non
+            const x = Math.random() * (noClickCount * 10) * (Math.random() < 0.5 ? -1 : 1);
+            const y = Math.random() * (noClickCount * 5) * (Math.random() < 0.5 ? -1 : 1);
+            btnNo.style.left = `${x}px`;
+            btnNo.style.top = `${y}px`;
+
+        } else {
+            // Une fois le max atteint, le Non disparaît
+            btnNo.style.opacity = '0';
+            btnNo.style.pointerEvents = 'none'; // Désactiver les clics
+            
+            // Le Oui prend toute la place
+            btnYes.style.flex = '1';
+            btnYes.style.width = '100%';
+        }
+    }
+
+    function handleYes() {
+        // Passer à la dernière étape (le récapitulatif)
+        nextStep(5);
+    }
+
     function sendWhatsApp() {
-      const phone = "243844118085"; // Numéro ciblé
-      const message = `Coucou ! Voici mes choix pour notre rendez-vous :\n\n📍 Endroit : ${choices.place}\n🍽️ Repas : ${choices.food}\n🎨 Ambiance : ${choices.vibe}\n\nDis-moi quand on se voit !`;
+      const phone = "243844118085"; // Numéro ciblé : +243844118085
+      const message = `Coucou ! Voici mes choix pour notre rendez-vous :\n\n📍 Endroit : ${choices.place}\n🍽️ Repas : ${choices.food}\n🎨 Ambiance : ${choices.vibe}\n\nEt OUI, je suis d'accord d'être ta Valentine / ton Valentin ! 😉🥰`;
       const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
       window.location.href = url;
     }
