@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La petite idée derrière ma tête...</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #faf7f5;
+      --card-bg: #ffffff;
+      --accent: #d4a373;
+      --accent-dark: #bc6c25;
+      --text: #2b2d42;
+      --text-muted: #8d99ae;
+      --shadow: 0 10px 30px rgba(0,0,0,0.05);
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+    main { width: 100%; max-width: 500px; }
+    section { background: var(--card-bg); border-radius: var(--radius); padding: 30px; box-shadow: var(--shadow); display: none; text-align: center; animation: fadeIn 0.4s ease-in-out; }
+    section.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .heart-icon { font-size: 2rem; color: var(--accent); margin-bottom: 10px; }
+    .step-tag { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-dark); margin-bottom: 10px; display: block; }
+    h1, h2 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; margin-bottom: 15px; line-height: 1.2; }
+    h1 em { font-style: italic; color: var(--accent-dark); }
+    p { font-size: 0.95rem; color: #555; line-height: 1.6; margin-bottom: 25px; }
+    .options-grid { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; text-align: left; }
+    .option-card { border: 2px solid #f0f0f0; border-radius: 12px; padding: 15px 20px; cursor: pointer; transition: all 0.2s ease; display: flex; flex-direction: column; }
+    .option-card:hover, .option-card.selected { border-color: var(--accent); background: #fdfbf7; }
+    .option-card strong { font-size: 1rem; color: var(--text); }
+    .option-card small { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
+    button { width: 100%; padding: 15px; border: none; border-radius: 12px; background: var(--accent-dark); color: white; font-weight: 600; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
+    button:hover { background: #9b5319; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
+    .summary-box { background: #fdfbf7; border: 1px solid #f0e6d9; border-radius: 12px; padding: 15px; margin-bottom: 25px; text-align: left; }
+    .summary-item { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .summary-item:last-child { margin-bottom: 0; }
+    .summary-item span { font-size: 1.3rem; }
+    .summary-item small { font-size: 0.75rem; color: var(--text-muted); display: block; }
+    .summary-item strong { font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+
+  <main>
+    <!-- Welcome -->
+    <section id="step-0" class="active">
+      <div class="heart-icon">♡</div>
+      <span class="step-tag">Une petite surprise</span>
+      <h1>La petite idée<br><em>derrière ma tête...</em></h1>
+      <p>J'ai quelque chose à te proposer. Rien de très sérieux... juste un petit moment que j'aimerais partager avec toi. 🤍</p>
+      <button onclick="nextStep(1)">Découvrir ♡</button>
+    </section>
+
+    <!-- Step 1: Lieu -->
+    <section id="step-1">
+      <span class="step-tag">01 · Notre endroit</span>
+      <h2>Où aimerais-tu que notre petite escapade nous emmène ?</h2>
+      <p>Choisis simplement l'endroit qui te ferait le plus plaisir.</p>
+      <div class="options-grid">
+        <div class="option-card" onclick="selectOption('place', 'Kimia (Cadre calme et apaisant)', this)">
+          <strong>Kimia</strong>
+          <small>Un cadre calme et apaisant pour discuter tranquillement.</small>
+        </div>
+        <div class="option-card" onclick="selectOption('place', 'Come Back (Animé, musique et verres)', this)">
+          <strong>Come Back</strong>
+          <small>Un moment plus animé avec de la bonne musique et de quoi boire.</small>
+        </div>
+        <div class="option-card" onclick="selectOption('place', 'Chez moi / toi (Intime et posé)', this)">
+          <strong>Chez toi / Chez moi</strong>
+          <small>Un moment intime, posé en toute simplicité.</small>
+        </div>
+        <div class="option-card" onclick="selectOption('place', 'Une surprise (Laisse-toi guider)', this)">
+          <strong>Surprise ✨</strong>
+          <small>Laisse-moi choisir et surprends-toi.</small>
+        </div>
+      </div>
+      <button id="btn-step-1" disabled onclick="nextStep(2)">Continuer</button>
+    </section>
+
+    <!-- Step 2: Repas -->
+    <section id="step-2">
+      <span class="step-tag">02 · Gourmandise</span>
+      <h2>Et pour notre petit festin ?</h2>
+      <p>Parce qu'une belle journée mérite toujours quelque chose de délicieux.</p>
+      <div class="options-grid">
+        <div class="option-card" onclick="selectOption('food', 'Restaurant / Dîner savoureux', this)">
+          <strong>Un bon repas</strong>
+          <small>Un plat savoureux au restaurant.</small>
+        </div>
+        <div class="option-card" onclick="selectOption('food', 'Cocktails & Grillades', this)">
+          <strong>Cocktails & Touches gourmandes</strong>
+          <small>Quelques verres et de quoi grignoter.</small>
+        </div>
+        <div class="option-card" onclick="selectOption('food', 'Desserts & Douceurs', this)">
+          <strong>Douceurs & Café</strong>
+          <small>Des pâtisseries et un bon moment sucré.</small>
+        </div>
+      </div>
+      <button id="btn-step-2" disabled onclick="nextStep(3)">Continuer</button>
+    </section>
+
+    <!-- Step 3: Ambiance -->
+    <section id="step-3">
+      <span class="step-tag">03 · L'ambiance</span>
+      <h2>Quelle ambiance tu préfères ?</h2>
+      <p>Une dernière petite préférence pour compléter le tout.</p>
+      <div class="options-grid">
+        <div class="option-card" onclick="selectOption('vibe', 'Calme & Discussions sincères', this)">
+          <strong>Calme & Intime</strong>
+          <small>Privilégier les belles discussions.</small>
+        </div>
+        <div class="option-card" onclick="selectOption('vibe', 'Rythmée & Festive', this)">
+          <strong>Dynamic & Festive</strong>
+          <small>Profiter du son et de l'énergie.</small>
+        </div>
+        <div class="option-card" onclick="selectOption('vibe', 'Détendue & Sans prise de tête', this)">
+          <strong>Relax & Spontanée</strong>
+          <small>Aller là où le moment nous mène.</small>
+        </div>
+      </div>
+      <button id="btn-step-3" disabled onclick="nextStep(4)">Voir le récapitulatif</button>
+    </section>
+
+    <!-- Final Step -->
+    <section id="step-4">
+      <div class="heart-icon">♥</div>
+      <span class="step-tag">Dernière étape</span>
+      <h2>Voici ce que tu as choisi :</h2>
+      <div class="summary-box">
+        <div class="summary-item">
+          <span>📍</span>
+          <div>
+            <small>Notre endroit</small>
+            <strong id="summary-place">-</strong>
+          </div>
+        </div>
+        <div class="summary-item">
+          <span>🍽️</span>
+          <div>
+            <small>Notre festin</small>
+            <strong id="summary-food">-</strong>
+          </div>
+        </div>
+        <div class="summary-item">
+          <span>🎨</span>
+          <div>
+            <small>Notre ambiance</small>
+            <strong id="summary-vibe">-</strong>
+          </div>
+        </div>
+      </div>
+      <p>Est-ce que tu veux bien me confirmer tout ça ?</p>
+      <button onclick="sendWhatsApp()">Confirmer sur WhatsApp ♡</button>
+    </section>
+  </main>
+
+  <script>
+    const choices = { place: '', food: '', vibe: '' };
+
+    function selectOption(category, value, element) {
+      choices[category] = value;
+      const parent = element.parentElement;
+      parent.querySelectorAll('.option-card').forEach(card => card.classList.remove('selected'));
+      element.classList.add('selected');
+
+      if (category === 'place') document.getElementById('btn-step-1').disabled = false;
+      if (category === 'food') document.getElementById('btn-step-2').disabled = false;
+      if (category === 'vibe') document.getElementById('btn-step-3').disabled = false;
+    }
+
+    function nextStep(step) {
+      document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById('step-' + step).classList.add('active');
+
+      if (step === 4) {
+        document.getElementById('summary-place').innerText = choices.place;
+        document.getElementById('summary-food').innerText = choices.food;
+        document.getElementById('summary-vibe').innerText = choices.vibe;
+      }
+    }
+
+    function sendWhatsApp() {
+      const phone = "243844118085"; // Numéro ciblé
+      const message = `Coucou ! Voici mes choix pour notre rendez-vous :\n\n📍 Endroit : ${choices.place}\n🍽️ Repas : ${choices.food}\n🎨 Ambiance : ${choices.vibe}\n\nDis-moi quand on se voit !`;
+      const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+      window.location.href = url;
+    }
+  </script>
+</body>
+</html>
