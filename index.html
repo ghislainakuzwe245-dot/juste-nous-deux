@@ -44,7 +44,7 @@
     .summary-item small { font-size: 0.75rem; color: var(--text-muted); display: block; }
     .summary-item strong { font-size: 0.95rem; }
 
-    /* NOUVELLE PARTIE POUR LES BOUTONS INTERACTIFS */
+    /* BOUTONS INTERACTIFS */
     .interact-buttons { display: flex; gap: 10px; margin-top: 20px; }
     .btn-yes, .btn-no { padding: 12px 24px; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; transition: transform 0.2s, font-size 0.2s, opacity 0.2s; font-size: 1rem; flex: 1; min-width: 80px; text-align: center; line-height: 1.2;}
     .btn-yes { background-color: var(--accent-dark); color: white; }
@@ -77,19 +77,19 @@
       <h2>Où aimerais-tu que notre petite escapade nous emmène ?</h2>
       <p>Choisis simplement l'endroit qui te ferait le plus plaisir.</p>
       <div class="options-grid">
-        <div class="option-card" onclick="selectOption('place', 'Kimia (Cadre calme et apaisant)', this)">
+        <div class="option-card" onclick="selectOption('place', 'Kimia', this)">
           <strong>Kimia</strong>
           <small>Un cadre calme et apaisant pour discuter tranquillement.</small>
         </div>
-        <div class="option-card" onclick="selectOption('place', 'Come Back (Animé, musique et verres)', this)">
+        <div class="option-card" onclick="selectOption('place', 'Come Back', this)">
           <strong>Come Back</strong>
           <small>Un moment plus animé avec de la bonne musique et de quoi boire.</small>
         </div>
-        <div class="option-card" onclick="selectOption('place', 'Chez moi / toi (Intime et posé)', this)">
+        <div class="option-card" onclick="selectOption('place', 'Chez toi / Chez moi', this)">
           <strong>Chez toi / Chez moi</strong>
           <small>Un moment juste nous deux, plus simple si tu n'aimes pas t'afficher en public 😏.</small>
         </div>
-        <div class="option-card" onclick="selectOption('place', 'Une surprise (Laisse-toi guider)', this)">
+        <div class="option-card" onclick="selectOption('place', 'Surprise ✨', this)">
           <strong>Surprise ✨</strong>
           <small>Laisse-moi choisir et surprends-toi.</small>
         </div>
@@ -103,17 +103,17 @@
       <h2>Et pour notre petit festin ?</h2>
       <p>Parce qu'une belle journée mérite toujours quelque chose de délicieux.</p>
       <div class="options-grid">
-        <div class="option-card" onclick="selectOption('food', 'Restaurant / Dîner savoureux', this)">
+        <div class="option-card" onclick="selectOption('food', 'Un bon repas', this)">
           <strong>Un bon repas</strong>
           <small>Un plat savoureux au restaurant.</small>
         </div>
-        <div class="option-card" onclick="selectOption('food', 'Cocktails & Grillades', this)">
+        <div class="option-card" onclick="selectOption('food', 'Quelques boissons et tout', this)">
           <strong>Quelques boissons et tout</strong>
           <small>Quelques verres et de quoi grignoter.</small>
         </div>
-        <div class="option-card" onclick="selectOption('food', 'Desserts & Douceurs', this)">
+        <div class="option-card" onclick="selectOption('food', 'Snack avec Netflix', this)">
           <strong>Snack avec Netflix</strong>
-          <small>Des petits snack et un bon moment à deux.</small>
+          <small>Des petits snacks et un bon moment à deux.</small>
         </div>
       </div>
       <button id="btn-step-2" disabled onclick="nextStep(3)">Continuer</button>
@@ -125,23 +125,23 @@
       <h2>Quelle ambiance tu préfères ?</h2>
       <p>Une dernière petite préférence pour compléter le tout.</p>
       <div class="options-grid">
-        <div class="option-card" onclick="selectOption('vibe', 'Calme & Discussions sincères', this)">
+        <div class="option-card" onclick="selectOption('vibe', 'Calme & Intime', this)">
           <strong>Calme & Intime</strong>
           <small>Des belles discussions.</small>
         </div>
-        <div class="option-card" onclick="selectOption('vibe', 'Rythmée & Festive', this)">
+        <div class="option-card" onclick="selectOption('vibe', 'Netflix and Chill', this)">
           <strong>Netflix and Chill</strong>
-          <small>Profiter du film et un snack (mais c'est uniquement chez toi/moi 😏.</small>
+          <small>Profiter du film et un snack (mais c'est uniquement chez toi/moi 😏).</small>
         </div>
-        <div class="option-card" onclick="selectOption('vibe', 'Détendue & Sans prise de tête', this)">
+        <div class="option-card" onclick="selectOption('vibe', 'Je te laisse gérer', this)">
           <strong>Je te laisse gérer</strong>
-          <small>Fait moi confiance et laisse moi organiser</small>
+          <small>Fais-moi confiance et laisse-moi organiser.</small>
         </div>
       </div>
       <button id="btn-step-3" disabled onclick="nextStep(4)">Continuer</button>
     </section>
 
-    <!-- NOUVELLE ÉTAPE 4 : LA QUESTION INTERACTIVE -->
+    <!-- STEP 4 : QUESTION INTERACTIVE -->
     <section id="step-4">
         <div class="heart-icon">❓</div>
         <span class="step-tag">Une petite question</span>
@@ -189,7 +189,7 @@
   <script>
     const choices = { place: '', food: '', vibe: '' };
     let noClickCount = 0;
-    const maxNoClicks = 5; // Nombre de clics sur "Non" avant qu'il ne disparaisse complètement
+    const maxNoClicks = 5;
 
     function selectOption(category, value, element) {
       choices[category] = value;
@@ -213,48 +213,40 @@
       }
     }
 
-    // NOUVELLES FONCTIONS POUR L'INTERACTION
     function handleNo() {
         const btnYes = document.getElementById('btn-yes');
         const btnNo = document.getElementById('btn-no');
         noClickCount++;
 
-        // Calculer l'augmentation de taille du Oui et la diminution de taille du Non
-        const yesScale = 1 + (noClickCount * 0.2); // Le "Oui" augmente de 20% à chaque clic
-        const noScale = 1 - (noClickCount * (1/maxNoClicks)); // Le "Non" diminue progressivement
+        const yesScale = 1 + (noClickCount * 0.2);
+        const noScale = 1 - (noClickCount * (1/maxNoClicks));
 
-        // Appliquer les transformations
         btnYes.style.transform = `scale(${yesScale})`;
         
-        // Si on n'a pas encore atteint le max, on déplace un peu le Non et on le réduit
         if (noClickCount < maxNoClicks) {
             btnNo.style.transform = `scale(${noScale})`;
             
-            // Un petit déplacement aléatoire pour le Non
             const x = Math.random() * (noClickCount * 10) * (Math.random() < 0.5 ? -1 : 1);
             const y = Math.random() * (noClickCount * 5) * (Math.random() < 0.5 ? -1 : 1);
             btnNo.style.left = `${x}px`;
             btnNo.style.top = `${y}px`;
 
         } else {
-            // Une fois le max atteint, le Non disparaît
             btnNo.style.opacity = '0';
-            btnNo.style.pointerEvents = 'none'; // Désactiver les clics
+            btnNo.style.pointerEvents = 'none';
             
-            // Le Oui prend toute la place
             btnYes.style.flex = '1';
             btnYes.style.width = '100%';
         }
     }
 
     function handleYes() {
-        // Passer à la dernière étape (le récapitulatif)
         nextStep(5);
     }
 
     function sendWhatsApp() {
-      const phone = "243844118085"; // Numéro ciblé : +243844118085
-      const message = `Coucou ! Voici mes choix pour notre rendez-vous :\n\n📍 Endroit : ${choices.place}\n🍽️ Repas : ${choices.food}\n🎨 Ambiance : ${choices.vibe}\n\nDit moi on se voit quand 🥰`;
+      const phone = "243844118085";
+      const message = `Coucou ! Voici mes choix pour notre rendez-vous :\n\n📍 Endroit : ${choices.place}\n🍽️ Repas : ${choices.food}\n🎨 Ambiance : ${choices.vibe}\n\nDis-moi, on se voit quand 🥰`;
       const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
       window.location.href = url;
     }
