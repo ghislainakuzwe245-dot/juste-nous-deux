@@ -61,6 +61,12 @@
 </head>
 <body>
 
+  <!-- ELEMENT AUDIO POUR LA MUSIQUE -->
+  <!-- Tu peux remplacer l'URL dans src par le lien MP3 de ton choix ! -->
+  <audio id="bg-music" loop preload="auto">
+  <source src="musique.mp3" type="audio/mpeg">
+  </audio>
+
   <main>
     <!-- Welcome -->
     <section id="step-0" class="active">
@@ -68,7 +74,7 @@
       <span class="step-tag">Une petite surprise</span>
       <h1>La petite idée<br><em>derrière ma tête...</em></h1>
       <p>J'ai quelque chose à te proposer. Rien de très sérieux... juste un petit moment que j'aimerais partager avec toi. 🤍</p>
-      <button onclick="nextStep(1)">Découvrir ♡</button>
+      <button onclick="startExperience()">Découvrir ♡</button>
     </section>
 
     <!-- Step 1: Lieu -->
@@ -190,6 +196,15 @@
     const choices = { place: '', food: '', vibe: '' };
     let noClickCount = 0;
     const maxNoClicks = 5;
+
+    function startExperience() {
+      // Lancer la musique au premier clic
+      const music = document.getElementById('bg-music');
+      if (music) {
+        music.play().catch(e => console.log("Musique bloquée par le navigateur :", e));
+      }
+      nextStep(1);
+    }
 
     function selectOption(category, value, element) {
       choices[category] = value;
