@@ -19,7 +19,8 @@
       --radius: 16px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-    body { background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+    body { background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; position: relative; }
+
     main { width: 100%; max-width: 500px; }
     section { background: var(--card-bg); border-radius: var(--radius); padding: 30px; box-shadow: var(--shadow); display: none; text-align: center; animation: fadeIn 0.4s ease-in-out; }
     section.active { display: block; }
@@ -61,11 +62,11 @@
 </head>
 <body>
 
-  <!-- ELEMENT AUDIO POUR LA MUSIQUE -->
-  <!-- Tu peux remplacer l'URL dans src par le lien MP3 de ton choix ! -->
+  <!-- LECTEUR AUDIO -->
   <audio id="bg-music" loop preload="auto">
     <source src="https://files.catbox.moe/k3769l.mp3" type="audio/mpeg">
   </audio>
+
   <main>
     <!-- Welcome -->
     <section id="step-0" class="active">
@@ -73,7 +74,9 @@
       <span class="step-tag">Une petite surprise</span>
       <h1>La petite idée<br><em>derrière ma tête...</em></h1>
       <p>J'ai quelque chose à te proposer. Rien de très sérieux... juste un petit moment que j'aimerais partager avec toi. 🤍</p>
-      <button onclick="startExperience()">Découvrir ♡</button>
+      
+      <!-- Bouton unique qui fait tout -->
+      <button id="start-btn" onclick="startExperience()" ontouchstart="prepareAudio()">Découvrir ♡</button>
     </section>
 
     <!-- Step 1: Lieu -->
@@ -195,12 +198,18 @@
     const choices = { place: '', food: '', vibe: '' };
     let noClickCount = 0;
     const maxNoClicks = 5;
+    const music = document.getElementById('bg-music');
+
+    function prepareAudio() {
+      // Déclenche l'audio immédiatement au moindre contact tactile
+      if (music) {
+        music.play().catch(e => console.log("Attente du clic direct"));
+      }
+    }
 
     function startExperience() {
-      // Lancer la musique au premier clic
-      const music = document.getElementById('bg-music');
       if (music) {
-        music.play().catch(e => console.log("Musique bloquée par le navigateur :", e));
+        music.play().catch(e => console.log("Erreur : ", e));
       }
       nextStep(1);
     }
@@ -260,7 +269,7 @@
 
     function sendWhatsApp() {
       const phone = "243844118085";
-      const message = `Coucou ! Voici mes choix pour notre rendez-vous :\n\n📍 Endroit : ${choices.place}\n🍽️ Repas : ${choices.food}\n🎨 Ambiance : ${choices.vibe}\n\nDis-moi, on se voit quand 🥰`;
+      const message = `Coucou ! Voici mes choix pour notre rendez-vous 🙃 :\n\n📍 Endroit : ${choices.place}\n🍽️ Repas : ${choices.food}\n🎨 Ambiance : ${choices.vibe}\n\nDis-moi, on se voit quand 🥰`;
       const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
       window.location.href = url;
     }
