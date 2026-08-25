@@ -87,7 +87,7 @@
         </div>
         <div class="option-card" onclick="selectOption('place', 'Chez moi / toi (Intime et posé)', this)">
           <strong>Chez toi / Chez moi</strong>
-          <small>Un moment intime, posé en toute simplicité.</small>
+          <small>Un moment juste nous deux, plus simple si tu n'aimes pas t'afficher en public 😏.</small>
         </div>
         <div class="option-card" onclick="selectOption('place', 'Une surprise (Laisse-toi guider)', this)">
           <strong>Surprise ✨</strong>
@@ -108,12 +108,12 @@
           <small>Un plat savoureux au restaurant.</small>
         </div>
         <div class="option-card" onclick="selectOption('food', 'Cocktails & Grillades', this)">
-          <strong>Cocktails & Touches gourmandes</strong>
+          <strong>Quelques boissons et tout</strong>
           <small>Quelques verres et de quoi grignoter.</small>
         </div>
         <div class="option-card" onclick="selectOption('food', 'Desserts & Douceurs', this)">
-          <strong>Douceurs & Café</strong>
-          <small>Des pâtisseries et un bon moment sucré.</small>
+          <strong>Snack avec Netflix</strong>
+          <small>Des petits snack et un bon moment à deux.</small>
         </div>
       </div>
       <button id="btn-step-2" disabled onclick="nextStep(3)">Continuer</button>
@@ -127,15 +127,15 @@
       <div class="options-grid">
         <div class="option-card" onclick="selectOption('vibe', 'Calme & Discussions sincères', this)">
           <strong>Calme & Intime</strong>
-          <small>Privilégier les belles discussions.</small>
+          <small>Des belles discussions.</small>
         </div>
         <div class="option-card" onclick="selectOption('vibe', 'Rythmée & Festive', this)">
-          <strong>Dynamic & Festive</strong>
-          <small>Profiter du son et de l'énergie.</small>
+          <strong>Netflix and Chill</strong>
+          <small>Profiter du film et un snack (mais c'est uniquement chez toi/moi 😏.</small>
         </div>
         <div class="option-card" onclick="selectOption('vibe', 'Détendue & Sans prise de tête', this)">
-          <strong>Relax & Spontanée</strong>
-          <small>Aller là où le moment nous mène.</small>
+          <strong>Je te laisse gérer</strong>
+          <small>Fait moi confiance et laisse moi organiser</small>
         </div>
       </div>
       <button id="btn-step-3" disabled onclick="nextStep(4)">Continuer</button>
@@ -145,7 +145,7 @@
     <section id="step-4">
         <div class="heart-icon">❓</div>
         <span class="step-tag">Une petite question</span>
-        <h2>Seras-tu d'accord d'être ma Valentine / mon Valentin ?</h2>
+        <h2>Alors, c'est un date 😏?</h2>
         <p>C'est juste pour savoir... 😉</p>
         <div class="interact-buttons">
           <button id="btn-yes" class="btn-yes" onclick="handleYes()">Oui ! ✨</button>
@@ -254,7 +254,7 @@
 
     function sendWhatsApp() {
       const phone = "243844118085"; // Numéro ciblé : +243844118085
-      const message = `Coucou ! Voici mes choix pour notre rendez-vous :\n\n📍 Endroit : ${choices.place}\n🍽️ Repas : ${choices.food}\n🎨 Ambiance : ${choices.vibe}\n\nEt OUI, je suis d'accord d'être ta Valentine / ton Valentin ! 😉🥰`;
+      const message = `Coucou ! Voici mes choix pour notre rendez-vous :\n\n📍 Endroit : ${choices.place}\n🍽️ Repas : ${choices.food}\n🎨 Ambiance : ${choices.vibe}\n\nDit moi on se voit quand 🥰`;
       const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
       window.location.href = url;
     }
